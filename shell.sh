@@ -14,6 +14,7 @@ echo &pwd
 #create-react-app client
 
 #-> Run server and client concurrently
+cd server
 npm run dev
 
 #-> install react dependencies
