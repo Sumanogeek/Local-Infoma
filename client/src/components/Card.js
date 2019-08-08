@@ -66,7 +66,7 @@ const mapDispachToProps = (dispach) => {
             //dispach(setItemsLoading());
             dispach({type:'ITEMS_LOADING'});
             axios
-                .get('/api/items')
+                .get('http://localhost:5000/api/items/')
                 .then(res => dispach({type:'GET_ITEMS', payload: res.data}))
                 //.then(res => console.log('res' + JSON.stringify(res.data)))
         },
