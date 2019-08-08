@@ -13,6 +13,8 @@ import { connect } from 'react-redux';
 //import uuid from 'uuid';
 import axios from 'axios';
 
+var host = "http://"+ window.location.hostname;
+
 class ItemModal extends Component {
     state = {
         modal: false,
@@ -120,7 +122,7 @@ const mapDispachToProps = (dispach) => {
     return {
         addItem: (item) => {
             axios
-                .post('http://localhost:5000/api/items', item)
+                .post(host+':5000/api/items', item)
                 .then(res => dispach({type:'ADD_ITEM', payload: res.data}))
         }
     }

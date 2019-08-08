@@ -9,9 +9,12 @@ import {connect} from 'react-redux';
 //import PropTypes from 'prop-types';
 import axios from 'axios';
 
+var host = "http://"+ window.location.hostname;
+//console.log("host: " + host);
+
 class CardHld extends Component{
 
-    componentDidMount() {
+    componentDidMount() {    
         this.props.getItems();
     }
 
@@ -66,7 +69,7 @@ const mapDispachToProps = (dispach) => {
             //dispach(setItemsLoading());
             dispach({type:'ITEMS_LOADING'});
             axios
-                .get('http://localhost:5000/api/items/')
+                .get(host+':5000/api/items/')
                 .then(res => dispach({type:'GET_ITEMS', payload: res.data}))
                 //.then(res => console.log('res' + JSON.stringify(res.data)))
         },
@@ -75,7 +78,7 @@ const mapDispachToProps = (dispach) => {
         //deleteItem: (_id) => dispach({type:'DELETE_ITEM', id})
         deleteItem: (id) => {
             axios
-                .delete(`http://localhost:5000/api/items/${id}`)
+                .delete(host+`:5000/api/items/${id}`)
                 .then (res => dispach({type:'DELETE_ITEM', id}))
         }
         
