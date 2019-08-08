@@ -120,7 +120,7 @@ const mapDispachToProps = (dispach) => {
     return {
         addItem: (item) => {
             axios
-                .post('/api/items', item)
+                .post('http://localhost:5000/api/items', item)
                 .then(res => dispach({type:'ADD_ITEM', payload: res.data}))
         }
     }

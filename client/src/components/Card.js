@@ -75,7 +75,7 @@ const mapDispachToProps = (dispach) => {
         //deleteItem: (_id) => dispach({type:'DELETE_ITEM', id})
         deleteItem: (id) => {
             axios
-                .delete(`/api/items/${id}`)
+                .delete(`http://localhost:5000/api/items/${id}`)
                 .then (res => dispach({type:'DELETE_ITEM', id}))
         }
         
