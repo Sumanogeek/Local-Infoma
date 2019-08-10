@@ -14,17 +14,41 @@ import './App.css';
 
 const store = createStore(reducer);
 
+//make a new Context
+//const MyContext = React.createContext("east");
+
+//create Context provider
+/* class MyProvider extends Component {
+  state = {
+    host = "http://"+ window.location.hostname
+  }
+  render() {
+    return(
+      <MyContext.Provider value="Hie">
+        {this.props.children}
+      </MyContext.Provider>
+    )
+  }
+}
+ */
 function App() {
   return (
     <Provider store={store}>
+    {/* <MyContext.Provider value={"North"}> */}
       <div className="App">
         {/*<h1>Hello!!!</h1>*/}
+        {/* {(() => {
+          console.log("storeB: "+ JSON.stringify(store))
+          store.host = "Host";
+          console.log("storeA: "+ JSON.stringify(store))
+        })()} */}
         <AppNavbar />
         <Container>
           <ItemModal />
           <CardHld />
         </Container>
       </div>
+    {/* </MyContext.Provider> */}
     </Provider>
 
   );

@@ -14,7 +14,7 @@ var host = "http://"+ window.location.hostname;
 
 class CardHld extends Component{
 
-    componentDidMount() {    
+    componentDidMount() {   
         this.props.getItems();
     }
 
@@ -24,6 +24,12 @@ class CardHld extends Component{
         this.props.deleteItem(id);
     }
 
+    imgChk = link => { (link === "") ? 
+                            link = "https://images.unsplash.com/photo-1499892477393-f675706cbe6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" 
+                            : link = link;
+                            return link;
+                        };               
+
     render () {
         const items = this.props.item;
         //console.log('items' + items);
@@ -32,7 +38,9 @@ class CardHld extends Component{
                 <Row>
                     {items.map(({ _id, name, location, link}) => (
                         <Col sm="6" key={_id}>
-                        <img width="100%" src={link} alt="Card image cap" />
+                        {/* {this.imgChk(link)} */}
+                        {/* <img width="100%" src={this.imgChk(link)} alt="Card image cap" /> */}
+                        <img width="100%" src={(!link.startsWith("https://")) ? "https://images.unsplash.com/photo-1499892477393-f675706cbe6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" : link} alt="Card image cap" />
                             <Card body>
                                 <CardTitle>
                                     {name},  {location}
