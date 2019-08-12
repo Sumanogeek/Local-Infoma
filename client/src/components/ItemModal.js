@@ -13,7 +13,8 @@ import { connect } from 'react-redux';
 //import uuid from 'uuid';
 import axios from 'axios';
 
-var host = "http://"+ window.location.hostname;
+//var host = "http://"+ window.location.hostname;
+var host = "http://ec2-18-216-236-140.us-east-2.compute.amazonaws.com";
 
 class ItemModal extends Component {
     state = {

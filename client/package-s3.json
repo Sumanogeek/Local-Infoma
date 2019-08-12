@@ -16,12 +16,10 @@
     "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2"
   },
-  "homepage": "https://sumanogeek.github.io/Local-Infoma",
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "aws s3 sync build/ s3://directora",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

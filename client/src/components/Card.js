@@ -9,7 +9,8 @@ import {connect} from 'react-redux';
 //import PropTypes from 'prop-types';
 import axios from 'axios';
 
-var host = "http://"+ window.location.hostname;
+//var host = "http://"+ window.location.hostname;
+var host = "http://ec2-18-216-236-140.us-east-2.compute.amazonaws.com";
 //console.log("host: " + host);
 
 class CardHld extends Component{
@@ -40,7 +41,10 @@ class CardHld extends Component{
                         <Col sm="6" key={_id}>
                         {/* {this.imgChk(link)} */}
                         {/* <img width="100%" src={this.imgChk(link)} alt="Card image cap" /> */}
-                        <img width="100%" src={(!link.startsWith("https://")) ? "https://images.unsplash.com/photo-1499892477393-f675706cbe6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" : link} alt="Card image cap" />
+                        <img width="100%" src={
+                                (!link.startsWith("https://")) ? 
+                                "https://images.unsplash.com/photo-1499892477393-f675706cbe6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" : 
+                                link} alt="Card image cap" />
                             <Card body>
                                 <CardTitle>
                                     {name},  {location}
