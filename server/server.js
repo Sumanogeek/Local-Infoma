@@ -23,8 +23,8 @@ app.use(cors());
 app.use(express.json());
 
 //DB Config
-const db = require('./config/keys').mongoURI;
-//const db = config.get('mongoURI');
+//const db = require('./config/keys').mongoURI;
+const db = config.get('mongoURI');
 
 //connect to Mongo
 mongoose
