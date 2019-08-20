@@ -1,6 +1,7 @@
 //import uuid from 'uuid';
 
 const initialState = {
+    //items: [{_id : "1", name : "none", location : "none", link : "none"}],
     items: [],
     loading: false
 };
@@ -10,7 +11,7 @@ const reducer = (state = initialState, action) => {
 
     switch(action.type) {
         case 'GET_ITEMS':
-            //console.log('newState: ' + JSON.stringify(action.payload))
+            //console.log('GET_ITEMS: ' + JSON.stringify(action.payload))
             return {
                 newState,
                 items: action.payload,
@@ -21,7 +22,7 @@ const reducer = (state = initialState, action) => {
             //console.log('DELETE_ITEM' + " - " + action.id );
             return {
                 ...state, 
-                items: state.items.filter(item => item._id !== action.id)
+                items: state.items.filter(item => item._id !== action.payload)
             };
             //break;
         case 'ADD_ITEM':

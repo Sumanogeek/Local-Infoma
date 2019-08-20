@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require("../../middleware/auth");
 
 // Item Model
 const Item = require('../../models/Item');
@@ -15,8 +16,8 @@ router.get('/', (req, res) => {
 
 //@route POST api/items
 //@desc Create A post
-//@access Public
-router.post('/', (req, res) => {
+//@access Private
+router.post('/', auth, (req, res) => {
     const newItem = new Item({
         name: req.body.name,
         location: req.body.location,
@@ -27,8 +28,8 @@ router.post('/', (req, res) => {
 
 //@route POST api/items
 //@desc Create A post
-//@access Public
-router.delete('/:id', (req, res) => {
+//@access Private
+router.delete('/:id', auth, (req, res) => {
     /*//Item.findOneAndDelete({location: req.params.id}, function(error, doc) {
     Item.remove({location: req.params.id}, function(error, doc) {
         if (error) 
@@ -37,9 +38,12 @@ router.delete('/:id', (req, res) => {
             res.json({message: doc})
       })
     */
-    Item.findByIdAndDelete(req.params.id)
+    /* Item.findByIdAndDelete(req.params.id)
         //.then(item => item.remove().then(() => res.json({success: true})))
         .then(() => res.json({success: true}))
+        .catch(err => res.status(404).json({success: false})); */
+    Item.findById(req.params.id)
+        .then(item => item.remove().then(() => res.json({success: true})))
         .catch(err => res.status(404).json({success: false}));
 });
 

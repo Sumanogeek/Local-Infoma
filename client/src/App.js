@@ -4,15 +4,17 @@ import CardHld from './components/Card';
 import ItemModal from './components/ItemModal';
 
 import {Provider} from 'react-redux';
-//import store from './store';
-import {createStore} from 'redux';
-import reducer from './store/reducer';
+import store from './store';
+//import {createStore} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
+//import reducer from './reducer';
+import reducer from './reducer/itemReducer';
+import {loadUser} from './actions/authActions';
 import {Container} from 'reactstrap';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-const store = createStore(reducer);
+//const store = createStore(reducer);
 
 //make a new Context
 //const MyContext = React.createContext("east");
@@ -31,27 +33,35 @@ const store = createStore(reducer);
   }
 }
  */
-function App() {
-  return (
-    <Provider store={store}>
-    {/* <MyContext.Provider value={"North"}> */}
-      <div className="App">
-        {/*<h1>Hello!!!</h1>*/}
-        {/* {(() => {
-          console.log("storeB: "+ JSON.stringify(store))
-          store.host = "Host";
-          console.log("storeA: "+ JSON.stringify(store))
-        })()} */}
-        <AppNavbar />
-        <Container>
-          <ItemModal />
-          <CardHld />
-        </Container>
-      </div>
-    {/* </MyContext.Provider> */}
-    </Provider>
+class App extends Component {
+//function App() {
 
-  );
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+      {/* <MyContext.Provider value={"North"}> */}
+        <div className="App">
+          {/*<h1>Hello!!!</h1>*/}
+          {/* {(() => {
+            console.log("storeB: "+ JSON.stringify(store))
+            store.host = "Host";
+            console.log("storeA: "+ JSON.stringify(store))
+          })()} */}
+          <AppNavbar />
+          <Container>
+            <ItemModal />
+            <CardHld />
+          </Container>
+        </div>
+      {/* </MyContext.Provider> */}
+      </Provider>
+  
+    );
+  }
 }
 
 export default App;

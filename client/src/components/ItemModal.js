@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
     Button,
     Modal,
@@ -7,22 +7,35 @@ import {
     Form,
     FormGroup,
     Label,
-    Input
+    Input,
+    NavLink
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-//import uuid from 'uuid';
+import { addItem } from '../actions/itemActions';
+import { clearErrors } from '../actions/errorActions';
+import RegisterModal from './auth/RegisterModal';
+import LoginModal from './auth/LoginModal';
 import axios from 'axios';
 
-//var host = "http://"+ window.location.hostname;
-var host = "http://ec2-18-216-236-140.us-east-2.compute.amazonaws.com";
+var host = "http://"+ window.location.hostname;
+//var host = "http://ec2-18-216-236-140.us-east-2.compute.amazonaws.com";
 
 class ItemModal extends Component {
     state = {
         modal: false,
         name: '',
         location: '',
-        link: ''
+        link: '',
+        msg: null
     };
+
+    static propTypes = {
+        isAuthenticated: PropTypes.bool,
+        error: PropTypes.object.isRequired,
+        addItem: PropTypes.func.isRequired,
+        clearErrors: PropTypes.func.isRequired
+    }
 
     toggle = () => {
         this.setState({
@@ -32,9 +45,7 @@ class ItemModal extends Component {
 
     onChange = (e) => {
         this.setState({ 
-            [e.target.name]: e.target.value,
-            [e.target.location]: e.target.value,
-            [e.target.link]: e.target.value
+            [e.target.name]: e.target.value
         });
     };
 
@@ -42,7 +53,6 @@ class ItemModal extends Component {
         e.preventDefault();
 
         const newItem = {
-            //id: uuid(),
             name: this.state.name,
             location: this.state.location,
             link: this.state.link
@@ -56,12 +66,71 @@ class ItemModal extends Component {
     };
 
     render() {
+        //const { isAuthenticated } = this.props.isAuthenticated;
+
+        var display = null
+        const linkRegister = (
+            <ModalBody>
+                <p>
+                    {'Register or Login to add items'}
+                </p>
+                <br/>
+                <RegisterModal />
+                <br/>
+                <LoginModal />
+            </ModalBody>
+        )
+        const linkItems = (
+            <ModalBody>
+            <Form onSubmit={this.onSubmit}>
+                <FormGroup>
+                    <Label for="item">Item</Label>
+                    <Input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Add Shop"
+                        onChange={this.onChange}
+                        className="mb-3"
+                        />
+
+                    <Label for="location">Location</Label>
+                    <Input
+                        type="text"
+                        name="location"
+                        id="location"
+                        placeholder="Add shop location"
+                        onChange={this.onChange}
+                        className="mb-3"
+                        />
+
+                    <Label for="link">Link</Label>
+                    <Input
+                        type="text"
+                        name="link"
+                        id="link"
+                        placeholder="Add image link"
+                        onChange={this.onChange}
+                        className="mb-3"
+                        />
+                    <Button
+                        color="dark"
+                        style={{marginTop: '2rem'}}
+                        block
+                        >Add Item
+                    </Button>
+                </FormGroup>
+            </Form>
+        </ModalBody>
+        )
+        { this.props.isAuthenticated ? display = linkItems : display = linkRegister }
+
         return(
             <div>
                 <Button
                     color="dark"
                     style={{margin: '2rem'}}
-                    onClick={this.toggle}
+                    onClick={ this.toggle }
                     >Add Item
                 </Button>
                 <Modal
@@ -71,43 +140,7 @@ class ItemModal extends Component {
                         <ModalHeader toggle={this.toggle}>
                             Add New Item
                         </ModalHeader>
-                        <ModalBody>
-                            <Form onSubmit={this.onSubmit}>
-                                <FormGroup>
-                                    <Label for="item">Item</Label>
-                                    <Input
-                                        type="text"
-                                        name="name"
-                                        id="item"
-                                        placeholder="Add new item"
-                                        onChange={this.onChange}
-                                        />
-                                    <Input
-                                        type="text"
-                                        name="location"
-                                        id="item"
-                                        placeholder="Add shop location"
-                                        onChange={this.onChange}
-                                        style={{marginTop: '2rem'}}
-                                        />
-                                    <Input
-                                        type="text"
-                                        name="link"
-                                        id="item"
-                                        placeholder="Add image link"
-                                        onChange={this.onChange}
-                                        style={{marginTop: '2rem'}}
-                                        />
-                                    <Button
-                                        color="dark"
-                                        style={{marginTop: '2rem'}}
-                                        block
-                                        >Add Item
-                                    </Button>
-                                </FormGroup>
-                            </Form>
-                        </ModalBody>
-
+                            { display }
                 </Modal>
 
             </div>
@@ -116,17 +149,9 @@ class ItemModal extends Component {
 }
 
 const mapStateToProps = state => ({
-    item: state.item
+    item: state.item,
+    isAuthenticated: state.auth.isAuthenticated,
+    error: state.error
 })
 
-const mapDispachToProps = (dispach) => {
-    return {
-        addItem: (item) => {
-            axios
-                .post(host+':5000/api/items', item)
-                .then(res => dispach({type:'ADD_ITEM', payload: res.data}))
-        }
-    }
-};
-
-export default connect(mapStateToProps, mapDispachToProps) (ItemModal);
+export default connect(mapStateToProps, {addItem, clearErrors}) (ItemModal);
