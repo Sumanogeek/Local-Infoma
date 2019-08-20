@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 //const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+
+process.env['NODE_CONFIG_DIR'] = __dirname + '/config/';
 const config = require('config');
+//const config = require('./config/keys')();
 
 /* app.use ((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
